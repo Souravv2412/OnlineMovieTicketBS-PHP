@@ -1,0 +1,18 @@
+# Dependency directories 
+vendor/ 
+node_modules/ 
+ 
+# Environment files 
+.env 
+.env.local 
+.env.production 
+ 
+# Log files 
+*.log 
+logs/ 
+ 
+# Cache and temporary files 
+cache/ 
+tmp/ 
+*.tmp 
+*.temp 
