@@ -1,19 +1,17 @@
-# Use PHP with Apache
+# Use PHP 8.2 with Apache
 FROM php:8.2-apache
 
-# Enable PDO + MySQL extensions
-RUN docker-php-ext-install pdo pdo_mysql
+# Install required PHP extensions
+RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable mysqli
 
-# Copy project files into Apache's root
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
+
+# Copy project files
 COPY . /var/www/html/
 
 # Set working directory
 WORKDIR /var/www/html/
 
-# Expose port (Render uses dynamic PORT env)
-EXPOSE 10000
-
-# Start Apache and dynamically set the port from Render
-CMD sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf && \
-    sed -i "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf && \
-    apache2-foreground
+# Expose port
+EXPOSE 80
